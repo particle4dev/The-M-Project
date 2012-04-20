@@ -16,7 +16,7 @@ $("[data-role=page]").live("pageshow", function(event) {
 	// For the demos that use this script, we want the content area of each
 	// page to be scrollable in the 'y' direction.
 
-	$page.find(".ui-content").attr("data-scroll", "y");
+    $page.find(".ui-content.tmp-splitview-menu", ".ui-content.tmp-splitview-content").attr("data-scroll", "y");
 
 	// This code that looks for [data-scroll] will eventually be folded
 	// into the jqm page processing code when scrollview support is "official"
