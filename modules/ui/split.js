@@ -214,7 +214,7 @@ M.SplitView = M.View.extend(
             $('.tmp-splitview-content-toolbar').css('width', width + 'px');
         }
 
-        var page = M.ViewManager.getCurrentPage() || M.ViewManager.getPage(M.Application.entryPage);
+        var page = this.getParentPage();//M.ViewManager.getCurrentPage() || M.ViewManager.getPage(M.Application.entryPage);
 
         /* set the min height of the page based on if there's a footer or not */
         if ($('#' + page.id).hasClass('tmp-splitview-no-footer')) {
@@ -264,8 +264,8 @@ M.SplitView = M.View.extend(
      * and set the contentLoaded, call theme update, in order to check out if a scrollview for menu is needed
      */
     initializeVar: function() {
-        this.headerheight = $('#' + M.ViewManager.getCurrentPage().id + ' .ui-header').height();
-        this.footerheight = $('#' + M.ViewManager.getCurrentPage().id + ' .ui-footer').height();
+        this.headerheight = $('#' + this.getParentPage().id + ' .ui-header').height();
+        this.footerheight = $('#' + this.getParentPage().id + ' .ui-footer').height();
         this.contentLoaded = YES;
         this.themeUpdate();
     },
@@ -323,7 +323,7 @@ M.SplitView = M.View.extend(
         }
 
         /* check if there is a split toolbar view on the page and update its label to show the value of the selected item */
-        var page = M.ViewManager.getCurrentPage() || M.ViewManager.getPage(M.Application.entryPage);
+        var page = this.getParentPage();
         var that = this;
         if (page) {
             $('#' + page.id + ' .tmp-splitview-content-toolbar').each(function() {
@@ -354,7 +354,7 @@ M.SplitView = M.View.extend(
     orientationDidChange: function() {
         var orientation = M.Environment.getOrientation();
         var that = this;
-        var page = M.ViewManager.getCurrentPage() || M.ViewManager.getPage(M.Application.entryPage);
+        var page = this.getParentPage();//M.ViewManager.getCurrentPage() || M.ViewManager.getPage(M.Application.entryPage);
 
         /* portrait */
         if (M.Environment.getHeight() > M.Environment.getWidth()) {
