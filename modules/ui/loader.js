@@ -1,4 +1,15 @@
 // ==========================================================================
+// Project:   The M-Project Plus - Mobile HTML5 Application Framework
+// Creator:   Steve Hoang
+// Date:      07.01.2013
+// License:   Dual licensed under the MIT or GPL Version 2 licenses.
+// LOG
+//    +) 14.01.2013 : add background property
+// ==========================================================================
+
+// BASE ON
+
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2011 panacoda GmbH. All rights reserved.
@@ -48,7 +59,14 @@ M.LoaderView = M.View.extend(
      * @type String
      */
     defaultTitle: 'loading',
-            
+    
+    /**
+     * This property can be used to specify the background of a loader or not.
+     *
+     * @type Boolean
+     */  
+    background:false,
+    
     /**
      * This method initializes the loader by loading it once.
      *
@@ -71,9 +89,14 @@ M.LoaderView = M.View.extend(
      * @param {Boolean} hideSpinner A boolean to specify whether to display a spinning wheel or not.
      */
     show: function(title, hideSpinner) {
+        this.createBackground();
+        
         this.refCount++;
         var title = title && typeof(title) === 'string' ? title : this.defaultTitle;
         if(this.refCount == 1){
+            if(this.background == true){
+    	        $('.background-loader').show();
+	        }
             $.mobile.showPageLoadingMsg('a', title, hideSpinner);
             var loader = $('.ui-loader');
             loader.removeClass('ui-loader-default');
@@ -112,8 +135,23 @@ M.LoaderView = M.View.extend(
             this.refCount--;
         }
         if(this.refCount == 0){
+            if(this.background == true){
+    	        $('.background-loader').remove();
+	        }
             $.mobile.hidePageLoadingMsg();
         }
+    },
+    createBackground: function(){
+        var bg = $('.background-loader');
+    	if(bg.length <= 0){
+    		bg = $('<div class="tmp-dialog-background"></div>');
+    		bg.appendTo('body');
+    		this.positionBackground(bg);
+    	}	
+    },
+    positionBackground: function(background) {
+        background.css('height', $(document).height() + 'px');
+        background.css('width', $(document).width() + 'px');
     }
     
 });
