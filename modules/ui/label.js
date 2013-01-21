@@ -1,4 +1,16 @@
 // ==========================================================================
+// Project:   The M-Project Plus - Mobile HTML5 Application Framework
+// Creator:   Steve Hoang
+// Date:      07.01.2013
+// License:   Dual licensed under the MIT or GPL Version 2 licenses.
+// LOG
+//    +) 11.01.2013 : add cssStyle variable in style(function)
+//	+) 12.01.2013 : add target propertie
+// ==========================================================================
+
+// BASE ON
+
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2011 panacoda GmbH. All rights reserved.
@@ -87,7 +99,14 @@ M.LabelView = M.View.extend(
      * @type Array
      */
     recommendedEvents: ['tap'],
-
+    
+    /**
+     * This property specifies the target attribute
+     *
+     * @type String
+     */
+    target: '_blank',
+    
     /**
      * Renders a label view as a div tag with corresponding data-role attribute and inner
      * text defined by value.
@@ -105,7 +124,7 @@ M.LabelView = M.View.extend(
                     this.html += '<a rel="external" href="mailto:' + this.hyperlinkTarget + '">';
                     break;
                 case M.HYPERLINK_WEBSITE:
-                    this.html += '<a rel="external" target="_blank" href="' + this.hyperlinkTarget + '">';
+                    this.html += '<a rel="external" target="'+this.target+'" href="' + this.hyperlinkTarget + '">';
                     break;
                 case M.HYPERLINK_PHONE:
                     this.html += '<a rel="external" href="tel:' + this.hyperlinkTarget + '">';
@@ -146,7 +165,7 @@ M.LabelView = M.View.extend(
             html += ' style="display:inline;"';
         }
         if(this.cssClass) {
-            html += ' class="' + this.cssClass + '"';
+            html += ' class="' + this.cssClass + '" style="' + (this.cssStyle = (this.cssStyle != null) ? this.cssStyle : '') + '" ';
         }
         return html;
     },
