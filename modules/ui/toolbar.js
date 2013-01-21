@@ -1,4 +1,19 @@
 // ==========================================================================
+// Project:   The M-Project Plus - Mobile HTML5 Application Framework
+// Creator:   Steve Hoang
+// Date:      07.01.2013
+// License:   Dual licensed under the MIT or GPL Version 2 licenses.
+// LOG
+//    +) 15.01.2013: change render function => !important
+//		this.clearValues();
+//		this.clearHtml();
+//	+) 16.01.2013: fix back button 
+//	+) 19.01.2013: fix back button [without M.LEFT]
+// ==========================================================================
+
+//BASE ON
+
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2011 panacoda GmbH. All rights reserved.
@@ -122,6 +137,8 @@ M.ToolbarView = M.View.extend(
      * @returns {String} The toolbar view's html representation.
      */
     render: function() {
+	this.clearValues();
+	this.clearHtml();
         this.html = '<div id="' + this.id + '" data-role="' + this.anchorLocation + '" data-tap-toggle="' + this.toggleOnTap + '"' + this.style();
 
         if(this.isFixed) {
@@ -153,30 +170,18 @@ M.ToolbarView = M.View.extend(
      */
     renderChildViews: function() {
         if(this.value && this.showBackButton) {
-            /* create the toolbar's back button */
-            this.backButton = M.ButtonView.design({
-                value: 'Back',
-                icon: 'arrow-l',
-                internalEvents: {
-                    tap: {
-                        action: function() {
-                            history.back(-1);
-                        }
-                    }
-                }
-            });
-
+           
             /* render the back button and add it to the toolbar's html*/
             this.html += '<div class="ui-btn-left">';
-            this.html += this.backButton.render();
+            this.html += this.renderBackButton();
             this.html += '</div>';
 
             /* render the centered value */
             this.html += '<h1>' + this.value + '</h1>';
-        } else if(this.value) {
+        }  else if(this.value) {
             this.html += '<h1>' + this.value + '</h1>';
-        } else if (this.childViews) {
-            var childViews = this.getChildViewsAsArray();
+	}  else if (this.childViews) {
+	    var childViews = this.getChildViewsAsArray();
             var viewPositions = {};
             for(var i in childViews) {
                 var view = this[childViews[i]];
@@ -191,7 +196,7 @@ M.ToolbarView = M.View.extend(
                 switch (view.anchorLocation) {
                     case M.LEFT:
                         this.html += '<div class="ui-btn-left">';
-                        this.html += view.render();
+                        this.html += view.render() + this.renderBackButton();
                         this.html += '</div>';
                         break;
                     case M.CENTER:
@@ -209,6 +214,11 @@ M.ToolbarView = M.View.extend(
                         return;
                 }
             }
+            if(!viewPositions[M.LEFT]&&this.showBackButton){
+		 this.html += '<div class="ui-btn-left">';
+                 this.html +=  this.renderBackButton();
+                 this.html += '</div>';
+	    }
         }
     },
 
@@ -249,6 +259,35 @@ M.ToolbarView = M.View.extend(
             html += ' class="' + this.cssClass + '"';
         }
         return html;
+    },
+
+    /**
+     * create the toolbar's back button
+     * fix back button TMPP     
+     * @private
+     * @returns {String} The toolbar's back button html
+     */   
+    renderBackButton: function(){
+	var btBackHTML = '';
+        if(this.showBackButton){	    
+            this.backButton = this.backButton || M.ButtonView.design({
+                value: 'Back',
+                icon: 'arrow-l',
+                internalEvents: {
+                    tap: {
+                        action: function() {
+                            history.back(-1);
+                        }
+                    }
+                }
+            });
+	    btBackHTML = this.backButton.render();
+	}
+	return btBackHTML;
+    },
+    //end
+     
+    logState:function(){
+	M.Logger.log('ID:'+this.id, M.INFO);
     }
-    
 });
