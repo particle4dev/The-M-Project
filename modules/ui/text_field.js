@@ -236,22 +236,35 @@ M.TextFieldView = M.View.extend(
      */
     cssClassForAsterisk: null,
 
+     /**
+     * This property can be used to assign a css class to the div fieldcontain to get a custom styling.
+     *
+     * @type String
+     */
+    cssClassFieldContain: '',
     /**
      * Renders a TextFieldView
      * 
      * @private
      * @returns {String} The text field view's html representation.
      */
+    
     render: function() {
         this.computeValue();
-        this.html += '<div';
+	this.html += '<div';
+	if(this.value == null){
+		this.value = '';
+	}
 
         if(this.label && this.isGrouped) {
             this.html += ' data-role="fieldcontain"';
         }
 
         if(this.cssClass) {
-            this.html += ' class="' + this.cssClass + '_container"';
+	    /**
+	    *	TMP+ 	this.cssClass==>this.name
+	    */
+            this.html += ' class="' + this.name + '_container ' + this.cssClassFieldContain + '"';
         }
 
         this.html += '>';
@@ -269,7 +282,7 @@ M.TextFieldView = M.View.extend(
             }
         }
 
-		// If the device supports placeholders use the HTML5 placeholde attribute else use javascript workarround
+	// If the device supports placeholders use the HTML5 placeholde attribute else use javascript workarround
         var placeholder = '';
         var initialText = '';
         if(M.Environment.modernizr.inputattributes['placeholder']) {
@@ -280,7 +293,7 @@ M.TextFieldView = M.View.extend(
         }
 
         if(this.hasMultipleLines) {
-            this.html += '<textarea cols="40" rows="8" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + placeholder + '>' + (this.value ? this.value : initialText) + '</textarea>';
+            this.html += '<textarea cols="40" rows="8" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + placeholder + '>' + (this.value) + '</textarea>';
             
         } else {
             var type = this.inputType;
@@ -288,7 +301,7 @@ M.TextFieldView = M.View.extend(
                 type = 'text';
             }
             
-            this.html += '<input ' + (this.numberOfChars ? 'maxlength="' + this.numberOfChars + '"' : '') + placeholder + 'type="' + type + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' value="' + (this.value ? this.value : this.initialText) + '" />';
+            this.html += '<input data-corners="false" ' + (this.numberOfChars ? 'maxlength="' + this.numberOfChars + '"' : '') + placeholder + 'type="' + type + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' value="' + (this.value) + '" />';
         }
 
         this.html += '</div>';
@@ -424,7 +437,7 @@ M.TextFieldView = M.View.extend(
         this.setValueFromDOM();
 
         if(this.initialText && !this.value) {
-            this.setValue(this.initialText, NO);
+            //this.setValue(this.initialText, NO);
             this.value = '';
         }
         this.hasFocus = NO;
@@ -441,9 +454,9 @@ M.TextFieldView = M.View.extend(
      * @returns {String} The text field's styling as html representation.
      */
     style: function() {
-        var html = ' style="';
+        var html = ' style="'+ (this.cssStyle = (this.cssStyle != null) ? this.cssStyle : '');
         if(this.isInline) {
-            html += 'display:inline;';
+            html += 'display:inline;'  ;
         }
         html += '"';
 
@@ -511,7 +524,8 @@ M.TextFieldView = M.View.extend(
      * @param {Object} nextEvent The next event (external event), if specified.
      */
     setValueFromDOM: function(id, event, nextEvent) {
-        this.value = this.secure($('#' + this.id).val());
+	var v = $('#' + this.id).val() || ''; // fix (TMPP)
+        this.value = this.secure(v);
         this.delegateValueUpdate();
 
         if(nextEvent) {
@@ -541,13 +555,16 @@ M.TextFieldView = M.View.extend(
 			}
 		}
 		else {
-            if(this.cssClassOnInit) {
-                this.addCssClass(this.cssClassOnInit);
-            }
+			if(this.cssClassOnInit) {
+				this.addCssClass(this.cssClassOnInit);
+			}
 
 			if(this.inputType == M.INPUT_PASSWORD) {
 				// Set the field type to text
-				$('#' + this.id).prop('type','text');
+				// Ali özgür : COPY/PASTE BUG :) 
+				// $('#' + this.id).prop('type','text');
+
+				$('#' + this.id).prop('type','password');
 			}
 		}
 
@@ -603,6 +620,16 @@ M.TextFieldView = M.View.extend(
         if(this.label){
             $('label[for="' + this.id + '"]').html(txt);
         }
+    },
+    
+    /**
+     *	
+     * Set a new class for this text field
+     * @param txt the new class value
+     */
+    setCssClass: function(txt){
+        this.cssClass = txt;
+	return this;
     }
 
 });
