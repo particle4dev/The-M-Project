@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project Plus - Mobile HTML5 Application Framework
-// Creator:   Steve Hoang
+// Creator:   
 // Date:      07.01.2013
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
 // LOG
