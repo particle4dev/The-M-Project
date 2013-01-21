@@ -7,7 +7,7 @@ The-M-Project - Mobile HTML5 Application Framework
 ## CHANGELOG
 
 ** Version 0.1 - Date 21.01.2013 **
-  * 
+  * added beforeRenderPage ,afterRenderPage interface to M.Application 
 
 ======================================
 The-M-Project - Mobile HTML5 Application Framework
