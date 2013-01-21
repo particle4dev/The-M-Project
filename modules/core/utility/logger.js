@@ -1,4 +1,15 @@
 // ==========================================================================
+// Project:   The M-Project Plus - Mobile HTML5 Application Framework
+// Creator:   Steve Hoang
+// Date:      07.01.2013
+// License:   Dual licensed under the MIT or GPL Version 2 licenses.
+// LOG
+//    +) 07.01.2013 : add variable on 
+// ==========================================================================
+
+// BASE ON
+
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2011 panacoda GmbH. All rights reserved.
@@ -78,14 +89,17 @@ M.Logger = M.Object.extend(
      * @param {String} msg The logging message.
      * @param {Number} level The logging level.
      */
-    log: function(msg, level) {
+    log: function(msg, level, on) {
         level = level || M.DEBUG;
-
+        on = ((on != null) ? on : true);
         /* are we in production mode, then do not throw any logs */
         if(M.Application.getConfig('debugMode') === false) {
             return;
         }
-
+        /* is variable on false, then do not throw any logs */
+        if(on === false) {
+            return;
+        }
         /* Prevent a console.log from blowing things up if we are on a browser that doesn't support this. */
         if (typeof console === 'undefined') {
             window.console = {} ;
