@@ -1,4 +1,15 @@
 // ==========================================================================
+// Project:   The M-Project Plus - Mobile HTML5 Application Framework
+// Creator:   Steve Hoang
+// Date:      07.01.2013
+// License:   Dual licensed under the MIT or GPL Version 2 licenses.
+// LOG
+//    +) 18.01.2013 : fix switchPage function (remove line M.ViewManager.setCurrentPage(M.ViewManager.getPage(this.page));)
+// ==========================================================================
+
+// BASE ON
+
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2011 panacoda GmbH. All rights reserved.
@@ -85,7 +96,7 @@ M.TabBarItemView = M.View.extend(
      */
     switchPage: function() {
         if(this.page) {
-        	M.ViewManager.setCurrentPage(M.ViewManager.getPage(this.page));
+        	//M.ViewManager.setCurrentPage(M.ViewManager.getPage(this.page));
             M.Controller.switchToTab(this);
         } else {
             this.parentView.setActiveTab(this);
