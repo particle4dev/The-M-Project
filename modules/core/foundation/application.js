@@ -98,9 +98,9 @@ M.Application = M.Object.extend(
     design: function(obj) {
         M.Logger.log("Application begin", M.INFO);
         /**
-	    * This method defines an interface method for action before render page.
-	    */
-	    obj.beforeRenderPage();
+	 * This method defines an interface method for action before render page.
+	 */
+	obj.beforeRenderPage();
         var pages = {};
         for(var pageName in obj) {
             if(obj[pageName] && obj[pageName].type === 'M.PageView') {
@@ -115,7 +115,7 @@ M.Application = M.Object.extend(
 
         this.afterRenderPage = function(){
     	    obj.afterRenderPage();
-	    }
+	}
         
         return this;
     },
@@ -166,13 +166,11 @@ M.Application = M.Object.extend(
             return this.config[key];
         }
         return null;
-    }
+    },
     /**
      * @interface
      *
      * This method defines an interface method for action after render page.
      */
-    afterRenderPage: function() {
-
-    }
+    afterRenderPage: function() {}
 });
