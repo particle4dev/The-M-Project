@@ -1,4 +1,19 @@
 // ==========================================================================
+// Project:   The M-Project Plus - Mobile HTML5 Application Framework
+// Creator:   Steve Hoang
+// Date:      07.01.2013
+// License:   Dual licensed under the MIT or GPL Version 2 licenses.
+// LOG
+//	+) 08.01.2013 : fix text password value
+//	+) 10.01.2013 : add function setCssClass
+//	+) 13.01.2013 : add cssStyle variable in style(function)
+//	+) 15.01.2013 : add cssClassFieldContain property
+//	+) 16.01.2013 : fix function setValueFromDOM
+// ==========================================================================
+
+// BASE ON
+
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2011 panacoda GmbH. All rights reserved.
