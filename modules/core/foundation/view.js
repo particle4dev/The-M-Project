@@ -410,7 +410,16 @@ M.View = M.Object.extend(
         if(this.childViews) {
             var childViews = this.getChildViewsAsArray();
             for(var i in childViews) {
-                this[childViews[i]].clearHtml();
+                if(typeof this[childViews[i]] != 'undefined'){
+			if(typeof(this[childViews[i]].clearHtml) === 'function'){
+			    this[childViews[i]].clearHtml();
+			}
+			else
+			    M.Logger.log( childViews[i] +'.clearHtml() is not function !', M.WARN);
+		}
+		else{
+			M.Logger.log( childViews[i] +'.clearHtml() of undefined !', M.WARN);
+		}
             }
         }
     },
