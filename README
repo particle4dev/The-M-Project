@@ -11,6 +11,7 @@ The-M-Project - Mobile HTML5 Application Framework
   * added cloneThisObject() function to M.View
   * Updated include() in M.Object
   * added on parameter [log() in M.Logger ]
+  * fix a bug with back button in M.ToolbarView 
 
 ======================================
 The-M-Project - Mobile HTML5 Application Framework
