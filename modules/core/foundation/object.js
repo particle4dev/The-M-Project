@@ -1,4 +1,15 @@
 // ==========================================================================
+// Project:   The M-Project Plus - Mobile HTML5 Application Framework
+// Creator:   Steve Hoang
+// Date:      07.01.2013
+// License:   Dual licensed under the MIT or GPL Version 2 licenses.
+// LOG
+//    +) 15.01.2013: change include function
+// ==========================================================================
+
+// BASE ON
+
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2011 panacoda GmbH. All rights reserved.
@@ -47,8 +58,9 @@ M.Object =
      * @param {Object} properties The properties to be included into the given object.
      */
     include: function(properties) {
+        if (null == properties || "object" != typeof properties) return ;
         for(var prop in properties) {
-            this[prop] = properties[prop];
+            if (properties.hasOwnProperty(prop)) this[prop] = properties[prop];
         }
     },
 
