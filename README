@@ -10,6 +10,7 @@ The-M-Project - Mobile HTML5 Application Framework
   * added beforeRenderPage ,afterRenderPage interface to M.Application 
   * added cloneThisObject() function to M.View
   * Updated include() in M.Object
+  * added on parameter [log() in M.Logger ]
 
 ======================================
 The-M-Project - Mobile HTML5 Application Framework
