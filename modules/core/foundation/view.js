@@ -710,12 +710,16 @@ M.View = M.Object.extend(
         if(this.childViews) {
             var childViews = this.getChildViewsAsArray();
             for(var i in childViews) {
-                if(this[childViews[i]].childViews) {
-                    this[childViews[i]].clearValues();
-                }
-                if(typeof(this[childViews[i]].clearValue) === 'function'){
-                    this[childViews[i]].clearValue();
-                }
+            	if(typeof this[childViews[i]] != 'undefined'){
+			if(this[childViews[i]].childViews) {
+                    		this[childViews[i]].clearValues();
+                	}
+                	if(typeof(this[childViews[i]].clearValue) === 'function'){
+                    		this[childViews[i]].clearValue();
+                	}
+            	}else{
+			M.Logger.log( childViews[i] +'.clearValues() of undefined !', M.WARN);
+		}
             }
         }
         this.clearValue();
