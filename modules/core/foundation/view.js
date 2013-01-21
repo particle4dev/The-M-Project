@@ -1,4 +1,18 @@
 // ==========================================================================
+// Project:   The M-Project Plus - Mobile HTML5 Application Framework
+// Creator:   Steve Hoang
+// Date:      07.01.2013
+// License:   Dual licensed under the MIT or GPL Version 2 licenses.
+// LOG
+//	+) 14.01.2013: add cloneThisObject function
+//	+) 17.01.2012: fix clearValues function 
+//	+) 17.01.2012: fix clearHtml function 
+//	+) 17.01.2012: fix clonePrivateThisObject function 
+// ==========================================================================
+
+//BASE ON
+
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2011 panacoda GmbH. All rights reserved.
@@ -765,6 +779,53 @@ M.View = M.Object.extend(
             }
             return this.parentPage;
         }
+    },
+    /**
+     * This method clones an object of the template including its sub views (recursively).
+     *
+     * @param {Object} obj The object to be cloned.
+     * @private
+     */
+    clonePrivateThisObject: function(obj) {
+	
+	obj.clearValues();
+	obj.clearHtml();
+        /* Get the child views as an array of strings */
+        var childViewsArray = obj.childViews ? obj.getChildViewsAsArray() : [];
+
+	/* Iterate through all views defined in the template view */
+        for(var i in childViewsArray) {
+	    if(typeof obj[childViewsArray[i]] != 'undefined'){	      
+		 /* Create a new object for the current view */
+		obj[childViewsArray[i]] = obj[childViewsArray[i]].design({});
+		/* create childViews of the current object */
+		obj[childViewsArray[i]] = this.clonePrivateThisObject(obj[childViewsArray[i]]); 	
+	    }
+	    else{
+		M.Logger.log( childViewsArray[i] +'.design({}) of undefined !', M.WARN);
+	    }
+                      
+        }             
+        return obj;
+    },
+    cloneThisObject: function(item) {
+	var obj;
+	if(typeof(item) === 'object') {
+	    obj = this.design(item);  
+	}
+	else{
+	    obj = this.design({}); 
+	}		
+        return this.clonePrivateThisObject(obj);
+    },
+    
+     /**
+     * @interface
+     *
+     * This method defines an interface method for log
+     */
+    logState: function(){
+    
     }
 
 });
