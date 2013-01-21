@@ -1,3 +1,15 @@
+/// ==========================================================================
+// Project:   The M-Project Plus - Mobile HTML5 Application Framework
+// Creator:   Steve Hoang
+// Date:      07.01.2013
+// License:   Dual licensed under the MIT or GPL Version 2 licenses.
+// LOG
+//    +) 12.01.2013 : add function beforeRenderPage
+//	+) 12.01.2013 : add function afterRenderPage
+// ==========================================================================
+
+// BASE ON
+
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
@@ -84,6 +96,11 @@ M.Application = M.Object.extend(
      * @param {Object} obj The mixed in object for the extend call.
      */
     design: function(obj) {
+        M.Logger.log("Application begin", M.INFO);
+        /**
+	    * This method defines an interface method for action before render page.
+	    */
+	    obj.beforeRenderPage();
         var pages = {};
         for(var pageName in obj) {
             if(obj[pageName] && obj[pageName].type === 'M.PageView') {
@@ -96,6 +113,10 @@ M.Application = M.Object.extend(
 
         this.entryPage = ((obj.entryPage && typeof(obj.entryPage) === 'string') ? obj.entryPage : null);
 
+        this.afterRenderPage = function(){
+    	    obj.afterRenderPage();
+	    }
+        
         return this;
     },
 
@@ -106,7 +127,8 @@ M.Application = M.Object.extend(
      */
     main: function() {
         var that = this;
-
+        M.Logger.log("M.Application start", M.INFO);
+        
         /* first lets get the entry page and remove it from pagelist and viewlist */
         var entryPage = M.ViewManager.getPage(M.Application.entryPage.replace(/\s+/g, ''));
         delete M.ViewManager.viewList[entryPage.id];
@@ -123,10 +145,15 @@ M.Application = M.Object.extend(
         _.each(M.ViewManager.pageList, function(page) {
             page.render();
         });
-
+        
+        M.Logger.log("M.Application render done", M.INFO);
+        that.afterRenderPage();
+        
         /* finally add entry page back to pagelist and view list, but with new key 'm_entryPage' */
         M.ViewManager.viewList['m_entryPage'] = entryPage;
         M.ViewManager.pageList['m_entryPage'] = entryPage;
+        
+        M.Logger.log("M.Application end", M.INFO);  
     },
 
     /**
@@ -140,5 +167,12 @@ M.Application = M.Object.extend(
         }
         return null;
     }
+    /**
+     * @interface
+     *
+     * This method defines an interface method for action after render page.
+     */
+    afterRenderPage: function() {
 
+    }
 });
