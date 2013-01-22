@@ -1,3 +1,11 @@
+// ==========================================================================
+// Project:   The M-Project Plus - Mobile HTML5 Application Framework
+// Creator:   
+// Date:      07.01.2013
+// License:   Dual licensed under the MIT or GPL Version 2 licenses.
+// LOG
+//	+) 23.01.2013 : create
+// ==========================================================================
 
 M.Element = M.View.extend({
     /**
