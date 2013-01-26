@@ -1,4 +1,14 @@
 // ==========================================================================
+// Project:   The M-Project Plus - Mobile HTML5 Application Framework
+// Creator:   
+// Date:      07.01.2013
+// License:   Dual licensed under the MIT or GPL Version 2 licenses.
+// LOG
+// ==========================================================================
+
+// BASE ON
+
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2011 panacoda GmbH. All rights reserved.
@@ -110,20 +120,55 @@ M.Controller = M.Object.extend(
      * This method initializes the notification of all observers, that observe the property behind 'key'.
      *
      * @param {String} key The key of the property to be changed.
-     * @param {Object|String} value The value to be set.
+     * @param {String|Array|Object} value The value to be set.
+     * @param {Boolean} merge 
+     * @return null
      */
-    set: function(key, value) {
+    set: function(key, value, merge) {
         var keyPath = key.split('.');
-
+    merge = ((merge != null) ? merge : false);
+	
+	
         if(keyPath.length === 1) {
-            this[key] = value;
+	    if(merge == false)
+		this[key] = value;
+	    else{
+		if(typeof(this[key]) == "string"){
+			//not pattern
+			this[key] += value; 
+		}
+		else if($.isArray(this[key])){			
+			this[key] = this.arrayUnique(this[key].concat(value));
+		}
+		else if(this[key] != null && typeof this[key] === "object"){			
+			for(var prop in value) {
+			    if (value.hasOwnProperty(prop)) this[key][prop] = value[prop];
+			}
+		}
+		
+	    }
         } else {
             var t = (this[keyPath[0]] = this[keyPath[0]] ? this[keyPath[0]] : {});
             for(var i = 1; i < keyPath.length - 1; i++) {
                 t = (t[keyPath[i]] = t[keyPath[i]] ? t[keyPath[i]] : {});
             }
-
-            t[keyPath[keyPath.length - 1]] = value;
+	    if(merge == false)
+		t[keyPath[keyPath.length - 1]] = value;
+	    else{
+		if(typeof(t[keyPath[keyPath.length - 1]]) == "string"){
+			//not pattern
+			t[keyPath[keyPath.length - 1]] += value; 
+		}
+		else if(t[keyPath[keyPath.length - 1]].isArray){
+			t[keyPath[keyPath.length - 1]] = this.arrayUnique(value.concat(t[keyPath[keyPath.length - 1]]));
+		}
+		else if(typeof(t[keyPath[keyPath.length - 1]]) == "object"){
+			for(var prop in value) {
+			    if (value.hasOwnProperty(prop)) t[keyPath[keyPath.length - 1]][prop] = value[prop];
+			}
+		}
+		
+	    }
         }
 
         if(!this.observable) {
@@ -131,6 +176,6 @@ M.Controller = M.Object.extend(
         }
 
         this.observable.notifyObservers(key);
-    }
+    },
 
 });
